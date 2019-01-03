@@ -11,4 +11,9 @@ public class HomeController {
     public ModelAndView index(){
         return new ModelAndView();
     }
+
+    @RequestMapping
+    public ModelAndView error(){
+        return new ModelAndView();
+    }
 }
