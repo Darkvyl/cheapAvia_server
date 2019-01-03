@@ -15,7 +15,6 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class ScheduledTasks {
 
-    private final String TOPIC = "trip";
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
     @Autowired
@@ -23,19 +22,22 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 3600000)
     public void check(){
-
+        send("JavaSample");
     }
 
 
 
-    public void send(){
+    private void send(String topic){
         JSONObject body = new JSONObject();
-        body.put("to", "/topics/" + TOPIC);
+        body.put("to", "/topics/" + topic);
         body.put("priority", "high");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm-ss");
 
         JSONObject notification = new JSONObject();
         notification.put("title", "CheapAvia");
-        notification.put("body", "Найден дешевый авиабилет для вас");
+        notification.put("body", "Найден дешевый авиабилет для вас в " + dateFormat.format(new Date()));
+        log.info("Current date: " + dateFormat.format(new Date()));
 
         JSONObject data = new JSONObject();
         data.put("Key-1", "JSA Data 1");
