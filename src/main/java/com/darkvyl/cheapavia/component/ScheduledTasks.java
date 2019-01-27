@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 @Component
@@ -57,7 +58,7 @@ public class ScheduledTasks {
 
         JSONObject notification = new JSONObject();
         notification.put("title", "CheapAvia");
-        notification.put("body", "Найден дешевый авиабилет для вас в " + dateFormat.format(new Date()));
+        notification.put("body", Arrays.toString("Найден дешевый авиабилет для вас в ".toCharArray()) + dateFormat.format(new Date()));
         log.info("Current date: " + dateFormat.format(new Date()));
 
         JSONObject data = new JSONObject();
