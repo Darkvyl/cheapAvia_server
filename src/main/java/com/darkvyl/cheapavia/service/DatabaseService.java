@@ -12,13 +12,12 @@ public class DatabaseService {
     private final static String username ="darkvyl";
     private final static String password ="testpasswordfordb";
 
-    static boolean InsertTrip(Trip trip, String lastResult, String topic){
+    static boolean InsertTrip(Trip trip, String price){
         try(Connection conn = DriverManager.getConnection(url, username, password)) {
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO trips (origin, destination," +
-                    "date, last_result, topic) VALUES("+ trip.getOrigin() +", "+
-                    trip.getDestination()+", "+ trip.getDeparture_date() +", "+lastResult +", " +
-                     topic+ ") ");
+            statement.executeUpdate("INSERT INTO users (origin, destination," +
+                    "departDate, price) VALUES("+ trip.getOrigin() +", "+
+                    trip.getDestination()+", "+ trip.getDeparture_date() +", "+price +", "+");");
         } catch (SQLException e){
             e.printStackTrace();
             return false;

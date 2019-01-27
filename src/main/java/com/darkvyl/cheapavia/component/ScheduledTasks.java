@@ -4,11 +4,18 @@ import com.darkvyl.cheapavia.service.AndroidPushNotificationsService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
@@ -23,6 +30,20 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 3600000)
     public void check(){
         send("JavaSample");
+    }
+
+    @Scheduled(fixedRate = 300000)
+    public void stayAwake(){
+        try {
+            URL url = new URL("https://cheapavia.herokuapp.com/");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            rd.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
