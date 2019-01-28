@@ -53,7 +53,7 @@ public class ScheduledTasks {
         JSONObject body = new JSONObject();
         body.put("to", "/topics/" + topic);
         body.put("priority", "high");
-        body.put("content-type", "application/json;charset=UTF-8");
+        body.put("Content-Type", "application/json;charset=UTF-8;");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm-ss");
 
