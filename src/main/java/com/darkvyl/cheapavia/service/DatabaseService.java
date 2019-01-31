@@ -18,9 +18,10 @@ public class DatabaseService {
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
             Statement statement = conn.createStatement();
-            statement.executeUpdate("INSERT INTO users (origin, destination," +
-                    "departDate, price) VALUES("+ trip.getOrigin() +", "+
-                    trip.getDestination()+", "+ trip.getDeparture_date() +", "+trip.getPrice() +", "+");");
+            String sql = "INSERT INTO users (origin, destination," +
+                    "departDate, price) VALUES('"+ trip.getOrigin() +"', '"+
+                    trip.getDestination()+"', '"+ trip.getDeparture_date() +"', "+trip.getPrice()+");";
+            statement.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
