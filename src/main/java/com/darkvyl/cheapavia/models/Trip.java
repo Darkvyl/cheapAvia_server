@@ -1,7 +1,5 @@
 package com.darkvyl.cheapavia.models;
 
-import com.sun.xml.internal.ws.developer.Serialization;
-
 public class Trip {
     private double price;
     private Date departure_date;
