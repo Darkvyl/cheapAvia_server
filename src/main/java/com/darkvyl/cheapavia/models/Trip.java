@@ -1,43 +1,44 @@
 package com.darkvyl.cheapavia.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Trip {
-    @JsonProperty("Price")
-    private int price;
-    @JsonProperty("Airline")
-    private String airline;
-    @JsonProperty("Date")
-    private String departure_date;
-    @JsonProperty("Destination")
+    private double price;
+    private Date departure_date;
     private String destination;
-    @JsonProperty("Origin")
     private String origin;
+    private int id;
 
     public Trip() {
     }
 
-    public int getPrice() {
+    Trip(int price,
+         Date departure_date, String destination, String origin) {
+        this.price = price;
+        this.departure_date = departure_date;
+        this.destination = destination;
+        this.origin = origin;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public String getAirline() {
-        return airline;
-    }
-
-    public void setAirline(String airline) {
-        this.airline = airline;
-    }
-
-    public String getDeparture_date() {
+    public Date getDeparture_date() {
         return departure_date;
     }
 
-    public void setDeparture_date(String departure_date) {
+    public void setDeparture_date(Date departure_date) {
         this.departure_date = departure_date;
     }
 
@@ -57,23 +58,14 @@ public class Trip {
         this.origin = origin;
     }
 
-    public Trip(int price, String airline,
-                String departure_date, String destination, String origin) {
-        this.price = price;
-        this.airline = airline;
-        this.departure_date = departure_date;
-        this.destination = destination;
-        this.origin = origin;
-    }
 
-    public int day(){
-        return Integer.parseInt(departure_date.substring(departure_date.length()-2));
+    int day(){
+        return departure_date.day;
     }
 
     @Override
     public String toString() {
         return  "Price: " + price +
-                "\nAirline: " + airline +
                 "\nDeparture date: " + departure_date +
                 "\nOrigin: " + origin +
                 "\nDestination: " + destination;
@@ -81,8 +73,7 @@ public class Trip {
     @Override
     public boolean equals(Object obj) {
         Trip trip = (Trip)obj;
-        return this.price==trip.price && this.destination.equals(trip.destination)
-                && this.origin.equals(trip.origin) && this.airline.equals(trip.airline)
-                && this.departure_date.equals(trip.departure_date);
+        return this.price==trip.price && this.id == trip.id && this.destination.equals(trip.destination)
+                && this.origin.equals(trip.origin) && this.departure_date.equals(trip.departure_date);
     }
 }

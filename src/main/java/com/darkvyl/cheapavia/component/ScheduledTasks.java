@@ -1,39 +1,64 @@
 package com.darkvyl.cheapavia.component;
 
+import com.darkvyl.cheapavia.models.Airport;
+import com.darkvyl.cheapavia.models.Trip;
 import com.darkvyl.cheapavia.service.AndroidPushNotificationsService;
+import com.darkvyl.cheapavia.service.DatabaseService;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpRequest;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 @Component
 public class ScheduledTasks {
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
 
-    @Autowired
+    private final
     AndroidPushNotificationsService androidPushNotificationsService;
 
-    @Scheduled(fixedRate = 3600000)
-    public void check(){
-        send("JavaSample");
+    @Autowired
+    public ScheduledTasks(AndroidPushNotificationsService androidPushNotificationsService) {
+        this.androidPushNotificationsService = androidPushNotificationsService;
     }
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 3600000)
+    public void check() {
+        ArrayList<Trip> trips = DatabaseService.getTrips();
+        try {
+            for (Trip trip : trips) {
+                Airport airport = new Airport(trip.getOrigin());
+                Trip tmp_trip = airport.findCheapestOneWayTripFromHere(new Airport(trip.getDestination()),
+                        trip.getDeparture_date());
+                if(trip.getPrice() == 0){
+                    tmp_trip.setId(trip.getId());
+                    if(DatabaseService.InsertTrip(tmp_trip)) {
+                        send(String.valueOf(trip.getId()), "We have found a cheap ticket for you! " +
+                                "Check out in our application!");
+                    }
+                    continue;
+                }
+                if (tmp_trip != null && tmp_trip.getPrice() < trip.getPrice()){
+                    tmp_trip.setId(trip.getId());
+                    if(DatabaseService.UpdateTrip(tmp_trip)) {
+                        send(String.valueOf(trip.getId()), "We have found a new cheap ticket for you! " +
+                                "Check out in our application!");
+                    }
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*@Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku
     public void stayAwake(){
         try {
             URL url = new URL("https://cheapavia.herokuapp.com/");
@@ -45,22 +70,20 @@ public class ScheduledTasks {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
 
 
-    private void send(String topic){
+    private void send(String topic, String mess){
         JSONObject body = new JSONObject();
         body.put("to", "/topics/" + topic);
         body.put("priority", "high");
         body.put("Content-Type", "application/json;charset=UTF-8;");
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh-mm-ss");
 
         JSONObject notification = new JSONObject();
         notification.put("title", "CheapAvia");
-        notification.put("body", "Найден дешевый авиабилет для вас в " + dateFormat.format(new Date()));
-        log.info("Current date: " + dateFormat.format(new Date()));
+        notification.put("body", mess);
 
         JSONObject data = new JSONObject();
         data.put("Key-1", "JSA Data 1");
@@ -68,6 +91,8 @@ public class ScheduledTasks {
 
         body.put("notification", notification);
         body.put("data", data);
+
+
 
         HttpEntity<String> request = new HttpEntity<>(body.toString());
         CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);

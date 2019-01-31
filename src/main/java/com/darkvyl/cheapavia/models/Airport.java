@@ -16,16 +16,12 @@ public class Airport {
         return code;
     }
     private String code;
-    private String name;
-    private String country;
 
-    Airport(String code, String name, String country){
+    public Airport(String code){
         this.code = code;
-        this.name = name;
-        this.country = country;
     }
 
-    Trip findCheapestOneWayTripFromHere(Airport destination, Date date) throws IOException {
+    public Trip findCheapestOneWayTripFromHere(Airport destination, Date date) throws IOException {
         String url = "http://api.travelpayouts.com/v2/prices/latest" +
                 "?currency=uah&origin=" + code +
                 "&destination=" + destination.code +
@@ -52,9 +48,11 @@ public class Airport {
         ArrayList<Trip> trips = new ArrayList<>();
         for (int i = 0; i < JSONTrips.length(); i++) {
             JSONObject JSONTrip = JSONTrips.getJSONObject(i);
-            trips.add(new Trip(JSONTrip.getInt("value"), JSONTrip.getString("gate"),
-                    JSONTrip.getString("depart_date"),
-                    JSONTrip.getString("destination"), JSONTrip.getString("origin")));
+            int price = JSONTrip.getInt("value");
+            String trip_date = JSONTrip.getString("depart_date");
+            String jsonDest = JSONTrip.getString("destination");
+            String jsonOrigin = JSONTrip.getString("origin");
+            trips.add(new Trip(price, new Date(trip_date), jsonDest, jsonOrigin));
         }
 
         final Trip[] goodTrip = new Trip[1];
@@ -83,6 +81,6 @@ public class Airport {
 
     @Override
     public String toString() {
-        return code + " " + name + " " + country;
+        return code;
     }
 }
