@@ -37,15 +37,7 @@ public class ScheduledTasks {
                 Trip tmp_trip = airport.findCheapestOneWayTripFromHere(new Airport(trip.getDestination()),
                         trip.getDeparture_date());
                 int id;
-                if(trip.getPrice() == 0){
-                    tmp_trip.setId(trip.getId());
-                    if((id = DatabaseService.InsertTrip(tmp_trip)) >= 0) {
-                        send(String.valueOf(id), "We have found a cheap ticket for you! " +
-                                "Check out in our application!");
-                    }
-                    continue;
-                }
-                if (tmp_trip != null && tmp_trip.getPrice() < trip.getPrice()){
+                if(tmp_trip != null && (tmp_trip.getPrice() < trip.getPrice() || trip.getPrice() == 0)){
                     tmp_trip.setId(trip.getId());
                     if((id = DatabaseService.UpdateTrip(tmp_trip)) >= 0) {
                         send(String.valueOf(id), "We have found a new cheap ticket for you! " +
@@ -93,7 +85,7 @@ public class ScheduledTasks {
         body.put("notification", notification);
         body.put("data", data);
 
-        log.info(notification.getString("body"));
+        log.info(topic + ": " + notification.getString("body"));
 
         HttpEntity<String> request = new HttpEntity<>(body.toString());
         CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
