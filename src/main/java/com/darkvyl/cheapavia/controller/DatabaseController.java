@@ -10,13 +10,17 @@ import java.util.ArrayList;
 public class DatabaseController {
 
     @PostMapping("/insert")
-    public boolean insert(Trip trip){
-        return trip != null && DatabaseService.InsertTrip(trip);
+    public Trip insert(Trip trip){
+        int id;
+        if((id = DatabaseService.InsertTrip(trip)) >= 0){
+            return DatabaseService.getTrip(id);
+        }
+        return new Trip();
     }
 
     @PostMapping("/update")
     public boolean update(Trip trip) {
-        return trip != null && DatabaseService.UpdateTrip(trip);
+        return trip != null && DatabaseService.UpdateTrip(trip) >=0;
     }
 
     @GetMapping("/get")

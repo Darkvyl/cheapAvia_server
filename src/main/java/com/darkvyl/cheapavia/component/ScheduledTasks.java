@@ -30,25 +30,25 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 3600000)
     public void check() {
-        send("JavaSample","Кириллица с сервера");
-        /*ArrayList<Trip> trips = DatabaseService.getTrips();
+        ArrayList<Trip> trips = DatabaseService.getTrips();
         try {
             for (Trip trip : trips) {
                 Airport airport = new Airport(trip.getOrigin());
                 Trip tmp_trip = airport.findCheapestOneWayTripFromHere(new Airport(trip.getDestination()),
                         trip.getDeparture_date());
+                int id;
                 if(trip.getPrice() == 0){
                     tmp_trip.setId(trip.getId());
-                    if(DatabaseService.InsertTrip(tmp_trip)) {
-                        send(String.valueOf(trip.getId()), "We have found a cheap ticket for you! " +
+                    if((id = DatabaseService.InsertTrip(tmp_trip)) >= 0) {
+                        send(String.valueOf(id), "We have found a cheap ticket for you! " +
                                 "Check out in our application!");
                     }
                     continue;
                 }
                 if (tmp_trip != null && tmp_trip.getPrice() < trip.getPrice()){
                     tmp_trip.setId(trip.getId());
-                    if(DatabaseService.UpdateTrip(tmp_trip)) {
-                        send(String.valueOf(trip.getId()), "We have found a new cheap ticket for you! " +
+                    if((id = DatabaseService.UpdateTrip(tmp_trip)) >= 0) {
+                        send(String.valueOf(id), "We have found a new cheap ticket for you! " +
                                 "Check out in our application!");
                     }
 
@@ -56,7 +56,7 @@ public class ScheduledTasks {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     /*@Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku

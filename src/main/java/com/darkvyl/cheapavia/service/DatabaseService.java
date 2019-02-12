@@ -12,7 +12,7 @@ public class DatabaseService {
     private final static String password ="cv2azf0pg0xsoehw";
     private final static String driver = "com.mysql.cj.jdbc.Driver";
 
-    public static boolean InsertTrip(Trip trip){
+    public static int InsertTrip(Trip trip){
         try{
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -24,12 +24,13 @@ public class DatabaseService {
             conn.close();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
-        return true;
+        ArrayList<Trip> trips = getTrips();
+        return trips.get(trips.size()-1).getId();
     }
 
-    public static boolean UpdateTrip(Trip trip){
+    public static int UpdateTrip(Trip trip){
         try{
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -41,9 +42,9 @@ public class DatabaseService {
             conn.close();
         } catch (Exception e){
             e.printStackTrace();
-            return false;
+            return -1;
         }
-        return true;
+        return trip.getId();
     }
 
     public static ArrayList<Trip> getTrips(){
