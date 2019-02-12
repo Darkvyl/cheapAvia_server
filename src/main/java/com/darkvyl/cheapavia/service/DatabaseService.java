@@ -13,7 +13,6 @@ public class DatabaseService {
     private final static String driver = "com.mysql.cj.jdbc.Driver";
 
     public static boolean InsertTrip(Trip trip){
-
         try{
             Class.forName(driver);
             Connection conn = DriverManager.getConnection(url, username, password);
@@ -74,5 +73,31 @@ public class DatabaseService {
             e.printStackTrace();
         }
         return trips;
+    }
+
+    public static Trip getTrip(int id){
+        Trip trip = new Trip();
+        try {
+            Class.forName(driver);
+            Connection conn = DriverManager.getConnection(url, username, password);
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM users WHERE id = " + id);
+            while (resultSet.next())
+            {
+                String origin = resultSet.getString("origin");
+                String destination = resultSet.getString("destination");
+                Date departDate = new Date(resultSet.getString("departDate"));
+                double price = resultSet.getDouble("price");
+                trip.setOrigin(origin);
+                trip.setDestination(destination);
+                trip.setDeparture_date(departDate);
+                trip.setPrice(price);
+                trip.setId(id);
+            }
+            conn.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trip;
     }
 }

@@ -30,7 +30,8 @@ public class ScheduledTasks {
 
     @Scheduled(fixedRate = 3600000)
     public void check() {
-        ArrayList<Trip> trips = DatabaseService.getTrips();
+        send("JavaSample","Кириллица с сервера");
+        /*ArrayList<Trip> trips = DatabaseService.getTrips();
         try {
             for (Trip trip : trips) {
                 Airport airport = new Airport(trip.getOrigin());
@@ -55,7 +56,7 @@ public class ScheduledTasks {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     /*@Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku
@@ -92,7 +93,7 @@ public class ScheduledTasks {
         body.put("notification", notification);
         body.put("data", data);
 
-
+        log.info(notification.getString("body"));
 
         HttpEntity<String> request = new HttpEntity<>(body.toString());
         CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
