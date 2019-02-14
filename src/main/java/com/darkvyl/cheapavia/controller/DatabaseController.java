@@ -3,6 +3,8 @@ package com.darkvyl.cheapavia.controller;
 import com.darkvyl.cheapavia.models.Trip;
 import com.darkvyl.cheapavia.service.DatabaseService;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.LoggerFactory;
+
 
 import java.util.ArrayList;
 
@@ -11,6 +13,7 @@ public class DatabaseController {
 
     @PostMapping("/insert")
     public Trip insert(Trip trip){
+        LoggerFactory.getLogger(DatabaseController.class).info(trip.toString());
         int id;
         if((id = DatabaseService.InsertTrip(trip)) >= 0){
             return DatabaseService.getTrip(id);
