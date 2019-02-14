@@ -12,7 +12,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 @Component
@@ -51,7 +55,7 @@ public class ScheduledTasks {
         }
     }
 
-    /*@Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku
+    @Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku
     public void stayAwake(){
         try {
             URL url = new URL("https://cheapavia.herokuapp.com/");
@@ -62,8 +66,7 @@ public class ScheduledTasks {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }*/
+    }
 
 
 
@@ -71,7 +74,7 @@ public class ScheduledTasks {
         JSONObject body = new JSONObject();
         body.put("to", "/topics/" + topic);
         body.put("priority", "high");
-        body.put("Content-Type", "application/json;charset=UTF-8;");
+        body.put("Content-Type", "application/json");
 
 
         JSONObject notification = new JSONObject();

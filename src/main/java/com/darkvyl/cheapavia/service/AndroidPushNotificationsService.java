@@ -11,17 +11,12 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class AndroidPushNotificationsService {
-    private static final String FIREBASE_SERVER_KEY = "AAAAd4zG4k8:APA91bFmY9mtDHNkPAxy4SS9wE8TDsZ5sTr1_wFRntO8RGn0CNaoBJDU-H27-8SUuDCJEvmc1lxZIPuYFq06GhFhBX5kvIUNjRXQhzTyWESqoPmPwtdS5oQtfaxPr8GjD36fnQ80xIt8";
+    private static final String FIREBASE_SERVER_KEY = "AAAA8irHQYk:APA91bHrTMZolFsP5mMBf2L3Kb-nJl9ZFyIBFKkCahl6RFvwAQVZO6lGN0Rc9cAbphnBfT0TbrTQmTGw2hY9C0rPznLaBTXplknrOFl0AgzB3E-L6FwdZhZDiXuQAixf5_zLctNOCJK3";
     private static final String FIREBASE_API_URL = "https://fcm.googleapis.com/fcm/send";
 
     @Async
     public CompletableFuture<String> send(HttpEntity<String> entity){
         RestTemplate restTemplate = new RestTemplate();
-
-        /*
-         https://fcm.googleapis.com/fcm/send
-         Content-Type:application/json
-         Authorization:key=FIREBASE_SERVER_KEY*/
 
         ArrayList<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add(new HeaderRequestInterceptor("Authorization",
