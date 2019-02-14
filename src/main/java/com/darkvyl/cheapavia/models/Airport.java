@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Airport {
     String getCode() {
@@ -56,6 +57,7 @@ public class Airport {
         }
 
         final Trip[] goodTrip = new Trip[1];
+        trips.sort(Comparator.comparingDouble(Trip::getPrice));
         trips.forEach(trip -> {
             if (trip.day() == date.day) {
                 goodTrip[0] = trip;

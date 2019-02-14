@@ -40,7 +40,7 @@ public class ScheduledTasks {
                 if(tmp_trip != null && (tmp_trip.getPrice() < trip.getPrice() || trip.getPrice() == 0)){
                     tmp_trip.setId(trip.getId());
                     if((id = DatabaseService.UpdateTrip(tmp_trip)) >= 0) {
-                        send(String.valueOf(id), "We have found a new cheap ticket for you! " +
+                        send("ticket_n" + String.valueOf(id), "We have found a new cheap ticket for you! " +
                                 "Check out in our application!");
                     }
 
