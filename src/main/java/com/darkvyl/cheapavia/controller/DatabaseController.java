@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DatabaseController {
 
     @PostMapping("/insert")
-    public Trip insert(Trip trip){
+    public Trip insert(@RequestBody Trip trip){
         LoggerFactory.getLogger(DatabaseController.class).info(trip.toString());
         int id;
         if((id = DatabaseService.InsertTrip(trip)) >= 0){

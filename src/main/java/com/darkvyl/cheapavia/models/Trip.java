@@ -10,8 +10,9 @@ public class Trip {
     public Trip() {
     }
 
-    Trip(int price,
+    Trip(int id, int price,
          Date departure_date, String destination, String origin) {
+        this.id = id;
         this.price = price;
         this.departure_date = departure_date;
         this.destination = destination;
@@ -73,7 +74,10 @@ public class Trip {
     @Override
     public boolean equals(Object obj) {
         Trip trip = (Trip)obj;
-        return this.price==trip.price && this.id == trip.id && this.destination.equals(trip.destination)
-                && this.origin.equals(trip.origin) && this.departure_date.equals(trip.departure_date);
+        return this.price == trip.price
+                && this.id == trip.id
+                && this.destination.equals(trip.destination)
+                && this.origin.equals(trip.origin)
+                && this.departure_date.equals(trip.departure_date);
     }
 }
