@@ -11,6 +11,11 @@ import java.util.ArrayList;
 @RestController
 public class DatabaseController {
 
+    @GetMapping("/")
+    public String home(){
+        return "There is nothing here";
+    }
+
     @PostMapping("/insert")
     public Trip insert(@RequestBody Trip trip){
         LoggerFactory.getLogger(DatabaseController.class).info(trip.toString());
