@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.darkvyl</groupId>
 	<artifactId>cheapavia</artifactId>
-	<version>1.4.5</version>
+	<version>1.4.6</version>
 	<name>cheapavia</name>
 	<description>Server side for cheapAvia</description>
 

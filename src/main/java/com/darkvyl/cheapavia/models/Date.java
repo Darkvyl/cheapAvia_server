@@ -4,12 +4,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Date {
-    @Override
-    public boolean equals(Object obj) {
-        Date date = (Date)obj;
-        return this.day == date.day && this.month == date.month && this.year == date.year;
-    }
-
     public Date(String date){
         Pattern yearPattern = Pattern.compile("\\d{4}");
         Matcher yearMatcher = yearPattern.matcher(date);
@@ -38,5 +32,17 @@ public class Date {
     @Override
     public String toString() {
         return year+"-"+month+"-"+day;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
     }
 }
