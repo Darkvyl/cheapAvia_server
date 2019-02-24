@@ -1,12 +1,15 @@
 package com.darkvyl.cheapavia.models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Date {
+    @Override
+    public boolean equals(Object obj) {
+        Date date = (Date)obj;
+        return this.day == date.day && this.month == date.month && this.year == date.year;
+    }
+
     public Date(String date){
         Pattern yearPattern = Pattern.compile("\\d{4}");
         Matcher yearMatcher = yearPattern.matcher(date);
@@ -31,30 +34,6 @@ public class Date {
     int year;
     int month;
     int day;
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
-    }
-
-    public int getDay() {
-        return day;
-    }
-
-    public void setDay(int day) {
-        this.day = day;
-    }
 
     @Override
     public String toString() {

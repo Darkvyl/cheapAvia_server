@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @RestController
 public class DatabaseController {
 
+    @SuppressWarnings("SameReturnValue")
     @GetMapping("/")
     public String home(){
         return "There is nothing here";

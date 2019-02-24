@@ -13,10 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Airport {
-    String getCode() {
-        return code;
-    }
-    private String code;
+    private final String code;
 
     public Airport(String code){
         this.code = code;
@@ -53,7 +50,7 @@ public class Airport {
             String trip_date = JSONTrip.getString("depart_date");
             String jsonDest = JSONTrip.getString("destination");
             String jsonOrigin = JSONTrip.getString("origin");
-            trips.add(new Trip(0, price, new Date(trip_date), jsonDest, jsonOrigin));
+            trips.add(new Trip(price, new Date(trip_date), jsonDest, jsonOrigin));
         }
 
         final Trip[] goodTrip = new Trip[1];

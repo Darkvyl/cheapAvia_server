@@ -12,11 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 @Component
@@ -47,7 +43,7 @@ public class ScheduledTasks {
                         send("ticket_n" + String.valueOf(id),
                                 "We have found a new cheap ticket for you from: "+tmp_trip.getOrigin()
                                         +" to: "+tmp_trip.getDestination()+"! " +
-                                "Check out in our application!");
+                                "Check out in our application!", id);
                     }
 
                 }
@@ -57,22 +53,8 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(fixedRate = 300000) //Special code to prevent app from sleeping on heroku
-    public void stayAwake(){
-        try {
-            URL url = new URL("https://cheapavia.herokuapp.com/");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            rd.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-
-
-    private void send(String topic, String mess){
+    private void send(String topic, String mess, int id){
         JSONObject body = new JSONObject();
         body.put("to", "/topics/" + topic);
         body.put("priority", "high");
@@ -82,10 +64,11 @@ public class ScheduledTasks {
         JSONObject notification = new JSONObject();
         notification.put("title", "CheapAvia");
         notification.put("body", mess);
+        notification.put("click_action", "OPEN_TICKET");
 
         JSONObject data = new JSONObject();
-        data.put("Key-1", "JSA Data 1");
-        data.put("Key-2", "JSA Data 2");
+        data.put("id", id);
+        data.put("text", String.valueOf(id));
 
         body.put("notification", notification);
         body.put("data", data);
