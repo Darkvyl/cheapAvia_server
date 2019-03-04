@@ -1,8 +1,5 @@
 package com.darkvyl.cheapavia.models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,22 +25,6 @@ public class Date {
         }
     }
 
-    int year;
-    int month;
-    int day;
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
     public void setMonth(int month) {
         this.month = month;
     }
@@ -56,8 +37,24 @@ public class Date {
         this.day = day;
     }
 
+    int year;
+    int month;
+    int day;
+
     @Override
     public String toString() {
         return year+"-"+month+"-"+day;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
     }
 }

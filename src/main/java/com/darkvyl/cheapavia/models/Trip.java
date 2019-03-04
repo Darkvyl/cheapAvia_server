@@ -1,5 +1,7 @@
 package com.darkvyl.cheapavia.models;
 
+import java.util.Objects;
+
 public class Trip {
     private double price;
     private Date departure_date;
@@ -10,9 +12,9 @@ public class Trip {
     public Trip() {
     }
 
-    Trip(int id, int price,
+    Trip(int price,
          Date departure_date, String destination, String origin) {
-        this.id = id;
+        this.id = 0;
         this.price = price;
         this.departure_date = departure_date;
         this.destination = destination;
@@ -76,8 +78,8 @@ public class Trip {
         Trip trip = (Trip)obj;
         return this.price == trip.price
                 && this.id == trip.id
-                && this.destination.equals(trip.destination)
-                && this.origin.equals(trip.origin)
-                && this.departure_date.equals(trip.departure_date);
+                && Objects.equals(this.destination, trip.destination)
+                && Objects.equals(this.origin, trip.origin)
+                && this.departure_date == (trip.departure_date);
     }
 }
