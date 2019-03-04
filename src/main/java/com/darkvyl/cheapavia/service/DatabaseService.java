@@ -2,6 +2,8 @@ package com.darkvyl.cheapavia.service;
 
 import com.darkvyl.cheapavia.models.Date;
 import com.darkvyl.cheapavia.models.Trip;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,6 +13,9 @@ public class DatabaseService {
     private final static String username ="wzs0hhl871kk08sr";
     private final static String password ="cv2azf0pg0xsoehw";
     private final static String driver = "com.mysql.cj.jdbc.Driver";
+
+    private static final Logger log = LoggerFactory.getLogger(DatabaseService.class);
+
 
     public static int InsertTrip(Trip trip){
         try{
@@ -23,7 +28,7 @@ public class DatabaseService {
             statement.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return -1;
         }
         ArrayList<Trip> trips = getTrips();
@@ -71,7 +76,7 @@ public class DatabaseService {
             }
             conn.close();
         } catch (Exception e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return trips;
     }
@@ -97,7 +102,7 @@ public class DatabaseService {
             }
             conn.close();
         } catch (Exception e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return trip;
     }

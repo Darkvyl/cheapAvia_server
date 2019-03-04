@@ -74,7 +74,6 @@ public class Airport {
                 }
             });
         }
-
         return goodTrip[0];
     }
 

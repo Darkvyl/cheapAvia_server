@@ -25,6 +25,18 @@ public class Date {
         }
     }
 
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
     int year;
     int month;
     int day;

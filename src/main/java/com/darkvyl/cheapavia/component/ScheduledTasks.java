@@ -31,25 +31,24 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 3600000)
     public void check() {
         ArrayList<Trip> trips = DatabaseService.getTrips();
-        try {
-            for (Trip trip : trips) {
-                Airport airport = new Airport(trip.getOrigin());
+        for (Trip trip : trips) {
+            Airport airport = new Airport(trip.getOrigin());
+            try {
                 Trip tmp_trip = airport.findCheapestOneWayTripFromHere(new Airport(trip.getDestination()),
                         trip.getDeparture_date());
                 int id;
-                if(tmp_trip != null && (tmp_trip.getPrice() < trip.getPrice() || trip.getPrice() == 0)){
+                if (tmp_trip != null && (tmp_trip.getPrice() < trip.getPrice() || trip.getPrice() == 0)) {
                     tmp_trip.setId(trip.getId());
-                    if((id = DatabaseService.UpdateTrip(tmp_trip)) >= 0) {
+                    if ((id = DatabaseService.UpdateTrip(tmp_trip)) >= 0) {
                         send("ticket_n" + String.valueOf(id),
-                                "We have found a new cheap ticket for you from: "+tmp_trip.getOrigin()
-                                        +" to: "+tmp_trip.getDestination()+"! " +
-                                "Check out in our application!", id);
+                                "We have found a new cheap ticket for you from: " + tmp_trip.getOrigin()
+                                        + " to: " + tmp_trip.getDestination() + "! " +
+                                        "Check out in our application!", id);
                     }
-
                 }
+            } catch (Exception e) {
+                log.error(e.getMessage());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
